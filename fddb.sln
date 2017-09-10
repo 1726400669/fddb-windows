@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "fddb", "fddb.pyproj", "{69443BC6-E3E9-42BA-A8D2-9C8075B1A700}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "fddb", "showannotations\fddb.pyproj", "{69443BC6-E3E9-42BA-A8D2-9C8075B1A700}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
