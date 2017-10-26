@@ -4,15 +4,15 @@ use strict;
 
 #### VARIABLES TO EDIT ####
 # where gnuplot is
-my $GNUPLOT = "D:/Program Files/gnuplot/bin/gnuplot"; 
+my $GNUPLOT = "/sw/bin/gnuplot"; 
 # where the binary is
-my $evaluateBin = "evaluation"; 
+my $evaluateBin = "evaluate"; 
 # where the images are
-my $imDir = "../fddb/images"; 
+my $imDir = "facesInTheWild/"; 
 # where the folds are
-my $fddbDir = "../fddb/FDDB-folds"; 
+my $fddbDir = "FDDB-folds"; 
 # where the detections are
-my $detDir = "MTCNN"; 
+my $detDir = "yourDetectionOutputDirectory"; 
 ###########################
 
 my $detFormat = 0; # 0: rectangle, 1: ellipse 2: pixels
@@ -49,30 +49,30 @@ my $gpFile = "createROC.p";
 
 # read all the folds into a single file for evaluation
 my $detFile = $detDir;
-#$detFile =~ s/\//_/g;
+$detFile =~ s/\//_/g;
 $detFile = $detFile."Dets.txt";
-print $detFile;
+
 if(-e $detFile){
-  system("del", $detFile);
+  system("rm", $detFile);
 }
 
 if(-e $listFile){
-  system("del", $listFile);
+  system("rm", $listFile);
 }
 
 if(-e $annotFile){
-  system("del", $annotFile);
+  system("rm", $annotFile);
 }
 
-# foreach my $fi (1..10){
-  # my $foldFile = sprintf("%s/fold-%02d-out.txt", $detDir, $fi);
-  # print $foldFile;
-  # system("type $foldFile >> $detFile");
-  # $foldFile = sprintf("%s/FDDB-fold-%02d.txt", $fddbDir, $fi);
-  # system("type $foldFile >> $listFile");
-  # $foldFile = sprintf("%s/FDDB-fold-%02d-ellipseList.txt", $fddbDir, $fi);
-  # system("type $foldFile >> $annotFile");
-# }
+foreach my $fi (1..10){
+  my $foldFile = sprintf("%s/fold-%02d-out.txt", $detDir, $fi);
+  print $foldFile;
+  system("cat $foldFile >> $detFile");
+  $foldFile = sprintf("%s/FDDB-fold-%02d.txt", $fddbDir, $fi);
+  system("cat $foldFile >> $listFile");
+  $foldFile = sprintf("%s/FDDB-fold-%02d-ellipseList.txt", $fddbDir, $fi);
+  system("cat $foldFile >> $annotFile");
+}
 
 #die;
 # run the actual evaluation code to obtain different points on the ROC curves
@@ -81,10 +81,10 @@ system($evaluateBin, "-a", $annotFile, "-d", $detFile, "-f", $detFormat, "-i", $
 
 # plot the two ROC curves using GNUplot
 makeGNUplotFile($detDir."ContROC.txt", $gpFile, $detDir, $detDir."ContROC.png");
-#system("echo \"load '$gpFile'\" | $GNUPLOT");
+system("echo \"load '$gpFile'\" | $GNUPLOT");
 
 makeGNUplotFile($detDir."DiscROC.txt", $gpFile, $detDir, $detDir."DiscROC.png");
-#system("echo \"load '$gpFile'\" | $GNUPLOT");
+system("echo \"load '$gpFile'\" | $GNUPLOT");
 
 # remove intermediate files
-#system("del", $annotFile, $listFile, $gpFile, $detFile);
+system("rm", $annotFile, $listFile, $gpFile, $detFile);

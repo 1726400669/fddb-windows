@@ -2,8 +2,8 @@
 from math import *
 import numpy as np
 from xml.dom.minidom import Document
-rootdir="E:/Face/Datasets/fddb"
-origimagedir=rootdir+"/origimages"
+rootdir="../"
+origimagedir=rootdir+"/originalPics"
 imagesdir=rootdir+"/images"
 annotationdir=rootdir+"/FDDB-folds"
 labelsdir=rootdir+"/labels"
@@ -201,6 +201,6 @@ def generatevocsets(trainratio=0.7,valratio=0.2,testratio=0.1):
     ftest.close()
 
 if __name__=="__main__":
-    #show_annotations()
+    show_annotations()
     generatevocsets()
     generatetxt()

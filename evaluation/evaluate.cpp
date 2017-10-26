@@ -8,9 +8,9 @@
 #include <iterator>
 #include <fstream>
 #include <limits>
-#include "mropencv.h"
+#include "getopt.h"
 #include "common.hpp"
-
+#include "mropencv.h"
 #ifdef __XCODE__
 #include <OpenCV/OpenCV.h>
 #endif
@@ -63,26 +63,15 @@ void printUsage(){
 
 int main(int argc, char *argv[]){
 
-#ifndef _WIN32
   int c;
   opterr = 0;
-#endif
 
   // default values for different command-line arguments
-#ifdef _WIN32
-  string baseDir = "../images/";
-  string listFile = "MTCNN/imList.txt";
-  string detFile = "MTCNN/Dets.txt";
-  string annotFile = "MTCNN/ellipseList.txt";
-#else
-  string baseDir = "/Users/vidit/scratch/Data/facesInTheWild/";
-  string listFile = "/Users/vidit/scratch/Data/detectionResults/FDDB/imList.txt";
-  string detFile = "/Users/vidit/scratch/Data/detectionResults/FDDB/MikolajczykDets.txt";
-  string annotFile = "/Users/vidit/scratch/Data/detectionResults/FDDB/ellipseList.txt";
-#endif
-
+  string listFile = "imList.txt";
+  string detFile = "Dets.txt";
+  string annotFile = "ellipseList.txt";
   // directory containing the images
-  string imDir = baseDir;
+  string imDir = "../originalPics/";
   // prefix used for writing the ROC-curve files
   string rocFilePrefix = "MTCNN"; 
   // format used for specifying the detected regions
@@ -98,7 +87,6 @@ int main(int argc, char *argv[]){
 //     return 0;
 //   }
 
-#ifndef _WIN32
   // parse the input
   while( (c = getopt(argc, argv, "l:r:d:a:z:i:f:s")) != -1){
     switch(c){
@@ -132,7 +120,6 @@ int main(int argc, char *argv[]){
 	return 0;
     }
   }
-#endif
 
   // read file and compute image-wise scores
   vector<string> *imNames = getImageList(listFile);
@@ -172,7 +159,7 @@ int main(int argc, char *argv[]){
   for(unsigned int ii = 0; ii < imNames->size(); ii++){
 
     if(ii % 1 == 0)
-      cout << ii << " images done" << endl;
+      cout <<"\r"<< ii << " images done";
 
     string imName = imNames->at(ii);
 	
@@ -190,7 +177,7 @@ int main(int argc, char *argv[]){
       cerr << "Incompatible annotation and detection files. See output specifications" << endl;
       return -1; 
     }
-	cout << imName << endl;
+//	cout << imName << endl;
     // Read the number of annotations/detections in this image
     int nAnnot, nDet;
     getline(fAnnot, imS1);

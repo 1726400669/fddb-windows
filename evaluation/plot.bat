@@ -1,4 +1,10 @@
 @echo off
-"D:/Program Files/gnuplot/bin/gnuplot" "MTCNNContROC.p"
-"D:/Program Files/gnuplot/bin/gnuplot" "MTCNNDiscROC.p"
+
+set Method=MTCNN
+
+if NOT "%~1%"=="" (
+Method=%~1%
+)
+"D:/Program Files/gnuplot/bin/gnuplot" "%Method%ContROC.p"
+"D:/Program Files/gnuplot/bin/gnuplot" "%Method%iscROC.p"
 pause

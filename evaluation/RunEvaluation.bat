@@ -1,3 +1,3 @@
 @echo off
-"D:/Perl/bin/perl" runEvaluate.pl
+"D:/Perl/bin/perl" runEvaluate-Windows.pl
 pause

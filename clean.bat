@@ -1,9 +1,9 @@
 @echo off
+rd evaluation\x64 /s /q
+del evaluation\*.ilk /s /q
+del evaluation\*.pdb /s /q
 rd labels /s /q
 rd images /s /q
-rd Annotations /s /q
-rd "ImageSets/Main" /s /q
 mkdir images
 mkdir labels
-mkdir Annotations
 pause
