@@ -102,8 +102,8 @@ def show_annotations():
                     mask=np.zeros((img.shape[0],img.shape[1]),dtype=np.uint8)
                     cv2.ellipse(mask, ((int)(center_x), (int)(center_y)), ((int)(major_axis_radius), (int)(minor_axis_radius)), angle, 0., 360.,(255, 255, 255))
                     #cv2.imshow("mask",mask) 
-                    contours=cv2.findContours(mask,cv2.RETR_LIST,cv2.CHAIN_APPROX_NONE)
-                    for k in range(len(contours)-2):
+                    image, contours, hierarchy=cv2.findContours(mask,cv2.RETR_LIST,cv2.CHAIN_APPROX_NONE)
+                    for k in range(len(contours)):
                         r=cv2.boundingRect(contours[k])
                         x_min=r[0]
                         y_min=r[1]
